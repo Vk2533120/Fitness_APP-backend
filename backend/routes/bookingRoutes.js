@@ -3,6 +3,7 @@ const {
   createBooking,
   getUserBookings,
   cancelBooking,
+  rescheduleBooking  
 } = require('../controllers/bookingController');
 const { protect } = require('../middleware/authMiddleware');
 
