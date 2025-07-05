@@ -1,28 +1,31 @@
-// const Stripe = require('stripe');
 require('dotenv').config();
-
 const Stripe = require('stripe');
-console.log("hhshds");
-
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
+// Optional: import your Payment model if saving to DB
+// const Payment = require('../models/Payment');
 
-console.log("Stripe Key:", process.env.STRIPE_SECRET_KEY);
-exports.processPayment = async (req, res) => {
-  const { amount, currency = 'inr' } = req.body;
+exports.createPaymentIntent = async (req, res) => {
+  const { amount } = req.body;
+
+  if (!amount) return res.status(400).json({ message: 'Amount is required' });
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // convert to paisa
-      currency,
-      payment_method_types: ['card'],
+      amount: Math.round(amount * 100), // amount in paisa
+      currency: 'inr',
+      metadata: {
+        integration_check: 'fitness_booking',
+        user: req.user?.email || 'guest',
+      },
     });
 
-    res.send({
+    res.status(200).json({
       clientSecret: paymentIntent.client_secret,
     });
+
   } catch (err) {
-    console.error(err);
+    console.error('Payment Error:', err.message);
     res.status(500).json({ message: err.message });
   }
 };

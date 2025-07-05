@@ -11,5 +11,7 @@ const router = express.Router();
 router.post('/', protect, createBooking);
 router.get('/', protect, getUserBookings);
 router.put('/:id/cancel', protect, cancelBooking);
+router.put('/:id', protect, rescheduleBooking);
+
 
 module.exports = router;

@@ -1,7 +1,22 @@
-const sendEmail = async (to, subject, message) => {
-    // Integrate nodemailer or similar here if needed
-    console.log(`Email sent to ${to}: ${subject} - ${message}`);
+const nodemailer = require('nodemailer');
+
+const sendEmail = async (to, subject, text) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,        // your Gmail
+      pass: process.env.EMAIL_PASS         // app password
+    }
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to,
+    subject,
+    text
   };
-  
-  module.exports = sendEmail;
-  
+
+  await transporter.sendMail(mailOptions);
+};
+
+module.exports = sendEmail;

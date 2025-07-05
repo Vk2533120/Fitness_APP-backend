@@ -21,9 +21,11 @@ app.use(express.json());
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/trainers', trainerRoutes);
-app.use('/api/classes', classRoutes);
+// app.use('/api/classes', classRoutes);
+app.use('/api/classes', require('./routes/classRoutes'));
+app.use('/api/availability', require('./routes/availabilityRoutes'));
 app.use('/api/bookings', bookingRoutes);
-app.use('/api/payments', paymentRoutes);
+app.use('/api/payments', require('./routes/paymentRoutes'));
 
 // Root route
 app.get('/', (req, res) => {
