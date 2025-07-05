@@ -24,4 +24,29 @@ router.get('/', async (req, res) => {
   }
 });
 
+// POST /api/classes
+router.post('/', async (req, res) => {
+    try {
+      const { title, description, type, duration, date, startTime, endTime, capacity } = req.body;
+      const newClass = new FitnessClass({
+        title,
+        description,
+        type,
+        duration,
+        date,
+        startTime,
+        endTime,
+        capacity,
+        spotsLeft: capacity,
+      });
+  
+      await newClass.save();
+      res.status(201).json(newClass);
+    } catch (err) {
+      res.status(500).json({ message: 'Failed to create class', error: err.message });
+    }
+  });
+  
+
+
 module.exports = router;
