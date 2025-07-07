@@ -13,17 +13,15 @@ const paymentRoutes = require('./routes/paymentRoutes');
 dotenv.config();
 
 connectDB();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
 app.use(cors({
     origin: 'http://localhost:5173', // <--- IMPORTANT: Replace with your actual frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
     credentials: true, // Allow cookies, authorization headers, etc.
   }));
-
-
-const app = express();
-app.use(cors());
-app.use(express.json());
-
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/trainers', trainerRoutes);
