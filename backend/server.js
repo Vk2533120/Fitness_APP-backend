@@ -1,6 +1,6 @@
 const express = require('express');
-require('dotenv').config();
-const dotenv = require('dotenv');
+require('dotenv').config(); // This should be enough, dotenv is only needed once
+// const dotenv = require('dotenv'); // Not needed if already called with require('dotenv').config();
 const cors = require('cors');
 const connectDB = require('./config/db');
 
@@ -10,23 +10,28 @@ const classRoutes = require('./routes/classRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 
-dotenv.config();
+// dotenv.config(); // This is redundant if already using require('dotenv').config() above
 
 connectDB();
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+
+// ONLY USE THIS ONE CORS CONFIGURATION:
 app.use(cors({
-    origin: 'http://localhost:5173', // <--- IMPORTANT: Replace with your actual frontend URL
+    origin: 'http://localhost:5173', // <--- Your actual frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
     credentials: true, // Allow cookies, authorization headers, etc.
-  }));
+    // It's good practice to explicitly list allowed headers as well, especially if you send custom ones
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+app.use(express.json()); // This should typically come after CORS, but before routes
+
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/trainers', trainerRoutes);
 app.use('/api/profile', require('./routes/profileRoutes'));
-// app.use('/api/classes', classRoutes);
 app.use('/api/classes', require('./routes/classRoutes'));
 app.use('/api/availability', require('./routes/availabilityRoutes'));
 app.use('/api/bookings', bookingRoutes);
@@ -34,7 +39,7 @@ app.use('/api/payments', require('./routes/paymentRoutes'));
 
 // Root route
 app.get('/', (req, res) => {
-  res.send('Fitness Booking API is running');
+    res.send('Fitness Booking API is running');
 });
 
 const PORT = process.env.PORT || 5000;
