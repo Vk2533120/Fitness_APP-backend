@@ -21,6 +21,7 @@ app.use(express.json());
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/trainers', trainerRoutes);
+app.use('/api/profile', require('./routes/profileRoutes'));
 // app.use('/api/classes', classRoutes);
 app.use('/api/classes', require('./routes/classRoutes'));
 app.use('/api/availability', require('./routes/availabilityRoutes'));
