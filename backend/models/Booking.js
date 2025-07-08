@@ -15,13 +15,13 @@ const bookingSchema = mongoose.Schema(
     },
     trainer: { // Optional: if you want to store the assigned trainer directly in the booking
       type: mongoose.Schema.Types.ObjectId,
-      required: true, // Assuming a trainer is always assigned
+    //   required: true, 
       ref: 'User', // Assuming trainers are also User documents
     },
-    bookingDate: { // The date/time of the booked class/session
-      type: Date,
-    //   required: true,
-    },
+    // bookingDate: { // The date/time of the booked class/session
+    //   type: Date,
+    // //   required: true,
+    // },
     status: {
       type: String,
       enum: ['pending', 'confirmed', 'cancelled'],
