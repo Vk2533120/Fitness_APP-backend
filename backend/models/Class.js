@@ -12,7 +12,7 @@ const classSchema = new mongoose.Schema({
   spotsLeft: Number,
   price: {
     type: Number,
-    required: true, // or false if optional
+    // required: true, // or false if optional
   },
   trainer: {
     type: mongoose.Schema.Types.ObjectId,
