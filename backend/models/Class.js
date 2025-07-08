@@ -13,6 +13,7 @@ const classSchema = new mongoose.Schema({
   trainer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true,
   },
 });
 
