@@ -1,16 +1,16 @@
 const express = require('express');
+const router = express.Router();
 const {
-  createBooking,
+    bookClass,
   getUserBookings,
   cancelBooking,
   rescheduleBooking  
 } = require('../controllers/bookingController');
 const { protect } = require('../middleware/authMiddleware');
 
-const router = express.Router();
 
-router.post('/', protect, createBooking);
-// GET /api/bookings/my-bookings
+console.log(typeof bookClass, typeof protect)
+router.post('/', protect, bookClass);// GET /api/bookings/my-bookings
 router.get('/my-bookings', protect, getUserBookings);
 // router.get('/', protect, getUserBookings);
 router.put('/:id/cancel', protect, cancelBooking);

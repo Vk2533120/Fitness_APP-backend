@@ -57,7 +57,18 @@ exports.bookClass = async (req, res) => { // Renamed from createBooking to bookC
     res.status(500).json({ message: 'Server error: ' + err.message });
   }
 };
-
+exports.getUserBookings = async (req, res) => { // <--- ENSURE THIS IS EXPORTED
+    try {
+        // Find bookings for the authenticated user
+        const bookings = await Booking.find({ user: req.user._id })
+                                    .populate('class', 'title date startTime')
+                                    .populate('trainer', 'name');
+        res.status(200).json(bookings);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error: ' + error.message });
+    }
+};
 // ... (keep getUserBookings, cancelBooking, rescheduleBooking as they are, but check populate in cancelBooking)
 // In cancelBooking, you have `booking.fitnessClass`. It should be `booking.class` because that's the field name.
 // Also `cls.trainerId` should be `cls.trainer._id` after population.
