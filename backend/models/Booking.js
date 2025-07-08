@@ -20,7 +20,7 @@ const bookingSchema = mongoose.Schema(
     },
     bookingDate: { // The date/time of the booked class/session
       type: Date,
-      required: true,
+    //   required: true,
     },
     status: {
       type: String,
