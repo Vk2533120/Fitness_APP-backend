@@ -6,31 +6,31 @@ const bookingSchema = mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'User', // This references your User model
+      ref: 'User',
     },
-    class: { // Assuming 'class' is a fitness class or session
+    class: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'Class', // This references your Class model (e.g., a specific workout class)
+      ref: 'Class',
     },
-    trainer: { // Optional: if you want to store the assigned trainer directly in the booking
+    trainer: {
       type: mongoose.Schema.Types.ObjectId,
-    //   required: true, 
-      ref: 'User', // Assuming trainers are also User documents
+      ref: 'User',
+      // Keep this commented out for now if you want it optional
+      // required: true,
     },
-    // bookingDate: { // The date/time of the booked class/session
-    //   type: Date,
-    // //   required: true,
-    // },
+    bookingDate: { // <-- UNCOMMENT THIS AND MAKE IT REQUIRED
+      type: Date,
+      required: true, // It's crucial this is present and required.
+    },
     status: {
       type: String,
       enum: ['pending', 'confirmed', 'cancelled'],
       default: 'pending',
     },
-    // Add other relevant fields like price, duration, notes, etc.
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt fields
+    timestamps: true,
   }
 );
 
