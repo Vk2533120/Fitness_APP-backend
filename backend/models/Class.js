@@ -10,6 +10,10 @@ const classSchema = new mongoose.Schema({
   endTime: String,
   capacity: Number,
   spotsLeft: Number,
+  price: {
+    type: Number,
+    required: true, // or false if optional
+  },
   trainer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
