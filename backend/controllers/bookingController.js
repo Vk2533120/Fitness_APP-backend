@@ -35,12 +35,16 @@ exports.createBooking = async (req, res) => {
 
 
 exports.getUserBookings = async (req, res) => {
-  try {
-    const bookings = await Booking.find({ user: req.user._id }).populate('fitnessClass');
-    res.json(bookings);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+    try {
+        // Find bookings for the authenticated user
+        const bookings = await Booking.find({ user: req.user._id })
+                                    .populate('class', 'title date startTime') // Populate class details
+                                    .populate('trainer', 'name'); // Populate trainer details
+        res.status(200).json(bookings);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error: ' + error.message });
+    }
 };
 
 exports.cancelBooking = async (req, res) => {
