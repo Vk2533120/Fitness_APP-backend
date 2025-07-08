@@ -41,7 +41,9 @@ exports.createClass = async (req, res) => {
             endTime,
             capacity: parseInt(capacity),
             spotsLeft: parseInt(capacity), // Initialize spotsLeft
-            trainer: trainerId, // Assign the ID of the authenticated trainer user
+            trainer: trainerId, 
+            price: parseFloat(price),
+            // Assign the ID of the authenticated trainer user
             // price: parseFloat(price), // Uncomment this line if you add 'price' to your Class.js schema
         });
         res.status(201).json({ message: 'Class added successfully!', class: newClass });
