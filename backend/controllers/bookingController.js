@@ -61,8 +61,13 @@ exports.getUserBookings = async (req, res) => { // <--- ENSURE THIS IS EXPORTED
     try {
         // Find bookings for the authenticated user
         const bookings = await Booking.find({ user: req.user._id })
-                                    .populate('class', 'title date startTime')
-                                    .populate('trainer', 'name');
+                                .populate({
+                                    path: 'class',
+                                    populate: {
+                                        path: 'trainer',
+                                        select: 'name email' // Select trainer fields you need
+                                    }
+                                });
         res.status(200).json(bookings);
     } catch (error) {
         console.error(error);
