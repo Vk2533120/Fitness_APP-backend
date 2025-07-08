@@ -2,6 +2,9 @@ const FitnessClass = require('../models/Class');
 const User = require('../models/User'); 
 exports.createClass = async (req, res) => {
     // --- CHANGES HERE TO MATCH FRONTEND formData NAMES ---
+    console.log('--- createClass started ---');
+    console.log('Request Body:', req.body);
+    console.log('Authenticated User (req.user):', req.user);
     const {
         title,         // Now directly matches frontend formData.title
         description,
