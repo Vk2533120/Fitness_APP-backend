@@ -20,13 +20,11 @@ const app = express();
 
 // ONLY USE THIS ONE CORS CONFIGURATION:
 app.use(cors({
-    origin: 'http://localhost:5173', // <--- Your actual frontend URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-    credentials: true, // Allow cookies, authorization headers, etc.
-    // It's good practice to explicitly list allowed headers as well, especially if you send custom ones
+    origin: ['http://localhost:5173', 'https://fitness123app.netlify.app'], // <--- ADD YOUR NETLIFY URL HERE
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-
 app.use(express.json()); // This should typically come after CORS, but before routes
 
 
