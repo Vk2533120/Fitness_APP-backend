@@ -9,6 +9,7 @@ const trainerRoutes = require('./routes/trainerRoutes');
 const classRoutes = require('./routes/classRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const feedbackRoutes = require('./routes/feedbackRoutes'); 
 const path = require('path');
 
 // dotenv.config(); // This is redundant if already using require('dotenv').config() above
@@ -37,6 +38,7 @@ app.use('/api/classes', require('./routes/classRoutes'));
 app.use('/api/availability', require('./routes/availabilityRoutes'));
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/payments', require('./routes/paymentRoutes'));
+app.use('/api/feedback', feedbackRoutes);
 
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
