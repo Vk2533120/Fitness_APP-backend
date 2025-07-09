@@ -20,9 +20,9 @@ exports.bookClass = async (req, res) => { // Renamed from createBooking to bookC
       user: userId,
       class: classId, // Assign the received classId to the 'class' field in the schema
       trainer: trainer, // Assign trainer (will be undefined if not provided by frontend)
-      bookingDate: bookingDate ,
-      status: 'booked',
-      // status will default to 'pending' as per schema
+      bookingDate: new Date(bookingDate) 
+    
+      // status will default to 'pending' as per schema //   status: 'booked'
     });
     await booking.save();
 
