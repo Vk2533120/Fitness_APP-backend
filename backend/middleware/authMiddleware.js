@@ -1,45 +1,45 @@
 // backend/middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
+const asyncHandler = require('express-async-handler');
 const User = require('../models/User');
 
-exports.protect = async (req, res, next) => {
+// Protect routes
+const protect = asyncHandler(async (req, res, next) => {
   let token;
 
-  if (req.headers.authorization?.startsWith('Bearer')) {
-    token = req.headers.authorization.split(' ')[1];
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
+      // Get token from header
+      token = req.headers.authorization.split(' ')[1];
+
+      // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      // Get user from the token
       req.user = await User.findById(decoded.id).select('-password');
-      // console.log('Authorization Header:', req.headers.authorization); // You can remove or comment these console logs in production
-      // console.log('Decoded Token:', decoded); // You can remove or comment these console logs in production
 
-      if (!req.user) {
-        return res.status(401).json({ message: 'User not found' });
-      }
-
-      return next(); // ✅ success
-    } catch (err) {
-      console.error('JWT verification failed:', err.message);
-      return res.status(401).json({ message: 'Not authorized, token failed' }); // ✅ return
+      next();
+    } catch (error) {
+      console.error(error);
+      res.status(401).json({ message: 'Not authorized, token failed' });
     }
-  } else {
-    return res.status(401).json({ message: 'No token provided' }); // ✅ return
   }
-};
 
-// New: Middleware to check for specific roles
-exports.authorizeRoles = (...roles) => {
+  if (!token) {
+    res.status(401).json({ message: 'Not authorized, no token' });
+  }
+});
+
+// Authorize roles
+const authorize = (roles) => {
   return (req, res, next) => {
-    // Ensure req.user exists (it should if 'protect' middleware ran successfully before this)
-    if (!req.user) {
-      return res.status(403).json({ message: 'User not authenticated for role check' });
-    }
-
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({
-        message: `User role ${req.user.role} is not authorized to access this route. Required roles: ${roles.join(', ')}`
+        message: `User role ${req.user.role} is not authorized to access this route`,
       });
     }
     next();
   };
 };
+
+module.exports = { protect, authorize }; // <--- Make sure both are exported like this

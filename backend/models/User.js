@@ -23,7 +23,41 @@ const userSchema = new mongoose.Schema(
       enum: ['user', 'trainer'],
       default: 'user'
     },
-
+    qualifications: { // e.g., certifications, degrees
+        type: [String], // Array of strings (e.g., ["Certified Personal Trainer", "Nutrition Specialist"])
+        default: [],
+      },
+      expertise: { // e.g., strength training, yoga, cardio, weight loss
+        type: [String], // Array of strings
+        default: [],
+      },
+      specializations: { // more specific areas
+        type: [String], // Array of strings
+        default: [],
+      },
+      bio: { // A longer introductory message
+        type: String,
+        maxlength: 1000, // Limit bio length
+      },
+      profilePicture: { // URL to the uploaded profile picture
+        type: String,
+        default: '/uploads/default-avatar.png', // A default image
+      },
+      videoIntro: { // URL to an introductory video
+        type: String,
+      },
+      // This will store average rating and count for reviews
+      averageRating: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5,
+      },
+      reviewCount: {
+        type: Number,
+        default: 0,
+        min: 0,
+      },
     // 👤 User profile
     userProfile: {
       age: Number,

@@ -19,6 +19,7 @@ const classSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('Class', classSchema);
